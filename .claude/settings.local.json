@@ -1,0 +1,25 @@
+{
+  "permissions": {
+    "allow": [
+      "PowerShell(mkdir public *)",
+      "PowerShell(npm install *)",
+      "PowerShell(npm run *)",
+      "PowerShell(Remove-Item *)",
+      "PowerShell(node_modules\\\\electron\\\\dist\\\\electron.exe --version)",
+      "PowerShell(node -v)",
+      "PowerShell(Get-Process *)",
+      "PowerShell(winget install *)",
+      "PowerShell(git config *)",
+      "PowerShell(git *)",
+      "PowerShell(& \"C:\\\\Program Files\\\\Git\\\\cmd\\\\git.exe\" config --global user.name \"zsAlliance001\"; & \"C:\\\\Program Files\\\\Git\\\\cmd\\\\git.exe\" config --global user.email \"878702291@qq.com\"; & \"C:\\\\Program Files\\\\Git\\\\cmd\\\\git.exe\" config --global --list)",
+      "PowerShell(ssh-keygen *)",
+      "PowerShell(\"$\\([char]10\\)$\\([char]10\\)$\\([char]10\\)\" | & \"C:\\\\Program Files\\\\Git\\\\usr\\\\bin\\\\ssh-keygen.exe\" -t ed25519 -C \"878702291@qq.com\" -f \"$env:USERPROFILE\\\\.ssh\\\\id_ed25519\" 2>&1)",
+      "PowerShell(New-Item *)",
+      "PowerShell(Get-ChildItem *)",
+      "WebFetch(domain:minimax-algeng-chat-tts.oss-cn-wulanchabu.aliyuncs.com)",
+      "PowerShell(Get-Content *)",
+      "PowerShell(ssh -T git@github.com 2>&1)",
+      "PowerShell(& \"C:\\\\Program Files\\\\Git\\\\usr\\\\bin\\\\ssh.exe\" -T git@github.com 2>&1)"
+    ]
+  }
+}
