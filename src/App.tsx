@@ -47,22 +47,23 @@ function App() {
   const switchToNextPhase = useCallback(() => {
     setIsRunning(false)
 
-    if (phase === 'work') {
+        if (phase === 'work') {
       const newCount = pomodoroCount + 1
       setPomodoroCount(newCount)
+      window.electronAPI?.setStore('pomodoroCount', newCount)
 
       if (newCount % 4 === 0) {
         setPhase('longBreak')
-        setTimeLeft(settings.longBreakDuration)
+        setTimeLeft(getPhaseTime('longBreak'))
         window.electronAPI?.showNotification('番茄钟', '太棒了！完成4个番茄，开始长休息 🌿')
       } else {
         setPhase('shortBreak')
-        setTimeLeft(settings.shortBreakDuration)
+        setTimeLeft(getPhaseTime('shortBreak'))
         window.electronAPI?.showNotification('番茄钟', '休息一下！☕')
       }
     } else {
       setPhase('work')
-      setTimeLeft(settings.workDuration)
+      setTimeLeft(getPhaseTime('work'))
       window.electronAPI?.showNotification('番茄钟', '开始新的番茄！🍅')
     }
   }, [phase, pomodoroCount, settings])
@@ -115,9 +116,7 @@ function App() {
       const savedSettings = await window.electronAPI?.getStore('settings') as Settings | undefined
       if (savedSettings) {
         setSettings(savedSettings)
-        if (phase === 'work') setTimeLeft(savedSettings.workDuration)
-        else if (phase === 'shortBreak') setTimeLeft(savedSettings.shortBreakDuration)
-        else setTimeLeft(savedSettings.longBreakDuration)
+        setTimeLeft(getPhaseTime(phase))
       }
     }
     loadStats()
@@ -127,7 +126,7 @@ function App() {
     if (phase === 'work' && !isRunning) {
       setTimeLeft(settings.workDuration)
     }
-  }, [settings, phase, isRunning])
+  }, [settings.workDuration, phase, isRunning])
 
   const handleStart = () => setIsRunning(true)
   const handlePause = () => setIsRunning(false)
@@ -140,20 +139,9 @@ function App() {
     setSettings(newSettings)
     await window.electronAPI?.setStore('settings', newSettings)
     if (!isRunning) {
-      if (phase === 'work') setTimeLeft(newSettings.workDuration)
-      else if (phase === 'shortBreak') setTimeLeft(newSettings.shortBreakDuration)
-      else setTimeLeft(newSettings.longBreakDuration)
+      setTimeLeft(getPhaseTime(phase))
     }
   }
-
-  useEffect(() => {
-    const saveStats = async () => {
-      await window.electronAPI?.setStore('pomodoroCount', pomodoroCount)
-    }
-    if (pomodoroCount > 0) {
-      saveStats()
-    }
-  }, [pomodoroCount])
 
   return (
     <div style={styles.container}>
